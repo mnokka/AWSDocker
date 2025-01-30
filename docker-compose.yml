@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  db:
+    image: 182399705305.dkr.ecr.eu-north-1.amazonaws.com/postgres-repo:latest
+    restart: always
+    shm_size: 128mb
+    container_name: testipossu
+    environment:
+      POSTGRES_USER: mika
+      POSTGRES_PASSWORD: passu
+      POSTGRES_DB: cars
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: 182399705305.dkr.ecr.eu-north-1.amazonaws.com/adminer-repo:latest
+    restart: always
+    ports:
+      - 8100:8080
+
+volumes:
+  postgres-data:
+

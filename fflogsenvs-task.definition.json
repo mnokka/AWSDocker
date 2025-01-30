@@ -1,0 +1,77 @@
+{
+    "family": "my-app-task",
+    "containerDefinitions": [
+        {
+            "name": "postgres-container",
+            "image": "ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/postgres-repo:latest",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 5432,
+                    "hostPort": 5432,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "POSTGRES_USER",
+                    "value": "mika"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "passu"
+                },
+                {
+                    "name": "POSTGRES_DB",
+                    "value": "cars"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "systemControls": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/my-cluster",
+                    "awslogs-region": "eu-north-1",
+                    "awslogs-stream-prefix": "postgres"
+                }
+            }
+        },
+        {
+            "name": "adminer-container",
+            "image": "ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/adminer-repo:latest",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "systemControls": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/my-cluster",
+                    "awslogs-region": "eu-north-1",
+                    "awslogs-stream-prefix": "adminer"
+                }
+            }
+        }
+    ],
+    "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/my-ecs-execution-role",
+    "networkMode": "awsvpc",
+    "cpu": "512",
+    "memory": "1024",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ]
+}
